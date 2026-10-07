@@ -1,31 +1,32 @@
 # Password Hash
 
-A Java password vault I built as a home lab project while studying **Applied Cryptography** and learning **Data Structures and Algorithms in Java**.
+A small Java password vault that I built as a home lab project.
 
-I wanted to challenge myself to take some of the concepts I was learning and build something practical: a local password vault that securely encrypts stored passwords rather than keeping them in plain text.
+I was studying Applied Cryptography and also learning Data Structures and Algorithms in Java, so I wanted to challenge myself to actually build something using some of the concepts I was learning.
+
+The idea was to make a local password vault where passwords aren't just sitting in a file as plain text.
 
 ## What it does
 
-- Creates a personal master password on first use
-- Stores password entries locally
-- Lists saved accounts
-- Retrieves stored passwords
-- Allows the master password to be changed
-- Encrypts the vault before writing it to disk
-- Uses a unique salt and encryption IV
-- Keeps the encrypted vault in a local `passwords.vault` file
+- Creates a master password when you first run it
+- Lets you add and store passwords
+- Lets you list saved accounts
+- Lets you retrieve a saved password
+- Lets you change your master password
+- Encrypts the vault before saving it
+- Stores everything locally in `passwords.vault`
 
 ## Cryptography
 
-The project uses:
+The main cryptography used in the project is:
 
-- **PBKDF2-HMAC-SHA256** for deriving an encryption key from the master password
-- **210,000 PBKDF2 iterations**
-- **16-byte random salt**
-- **AES-256-GCM** for authenticated encryption
-- **12-byte random IV**
-- **128-bit GCM authentication tag**
-- `SecureRandom` for cryptographically secure random values
+- PBKDF2-HMAC-SHA256
+- 210,000 PBKDF2 iterations
+- 16-byte random salt
+- AES-256-GCM
+- 12-byte random IV
+- 128-bit GCM authentication tag
+- SecureRandom
 
 The basic process is:
 
@@ -41,27 +42,27 @@ AES-256-GCM
 Encrypted passwords.vault
 ```
 
-The master password itself is never stored in the vault.
+The master password itself is not stored.
 
-## Data Structures & Algorithms
+PBKDF2 is used to derive the encryption key from the master password, and AES-GCM is then used to encrypt the actual vault data.
 
-I also used this project to apply some of the Data Structures and Algorithms concepts I have been learning in Java.
+## Data structures and algorithms
 
-Password entries are stored using an `ArrayList<PasswordEntry>`.
+I also wanted to use this project to practise some of the data structures and algorithms I have been learning in Java.
 
-Current operations include:
+The passwords are stored using an `ArrayList<PasswordEntry>`.
 
-| Operation | Complexity |
-|---|---|
-| Add password | O(1) amortized |
-| List passwords | O(n) |
-| Search for password | O(n) |
+At the moment:
 
-The project deliberately uses a straightforward data structure so I can focus on understanding how the underlying operations work and how the data structure affects performance.
+- Adding an entry is O(1) amortized
+- Listing entries is O(n)
+- Searching for an entry is O(n)
 
-## Running the Project
+I kept the data structure fairly simple so I could focus on understanding how it works rather than trying to build something overly complicated.
 
-The project uses Java 17 and Maven.
+## Running it
+
+You need Java 17 and Maven.
 
 Clone the repository:
 
@@ -70,7 +71,7 @@ git clone https://github.com/HQ720/password_hash.git
 cd password_hash
 ```
 
-Build the project:
+Build it:
 
 ```bash
 mvn clean package
@@ -82,22 +83,22 @@ Run it:
 java -jar target/password-hash-1.0.0.jar
 ```
 
-On the first run, you will create **your own master password**.
+On the first run, you will be asked to create your own master password.
 
-Your master password is not included in this repository.
+The master password is not included in the project.
 
-## Vault File
+## Vault file
 
-The encrypted vault is stored locally as:
+The encrypted vault is stored locally in:
 
 ```text
 passwords.vault
 ```
 
-The file is excluded from Git using `.gitignore`, so personal vault data should not be uploaded to GitHub.
+This file is included in `.gitignore`, so it won't be pushed to GitHub.
 
-## Why I Built This
+## Why I built it
 
-I wanted a project that combined two areas I was actively studying: **cryptography and algorithms**.
+I wanted to take what I was learning in Applied Cryptography and Data Structures and Algorithms and turn it into something practical.
 
-Building the vault gave me a way to
+It was a good way for me to learn more about key derivation, encryption, salts, IVs, file handling, `ArrayList`, searching and algorithmic complexity while building something I could actually use.
